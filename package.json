@@ -15,9 +15,9 @@
     "start": "web-dev-server"
   },
   "dependencies": {
-    "lit": "^2.0.2",
     "@vaadin/router": "^1.7.4",
-    "fa-icons": "^0.2.0"
+    "fa-icons": "^0.2.0",
+    "lit": "^2.0.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",

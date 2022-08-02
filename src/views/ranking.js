@@ -5,18 +5,33 @@ import { getUserList } from '../services/main.js';
 class Ranking extends LitElement {
   static get styles() {
     return css`
-      :host {
-        display: block;
+      .ranking {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
+        text-align: center;
       }
-      .wrapper {
-        padding: 25px;
+
+      .ranking__position {
+        font-size: 20px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 30px;
       }
-      /* 
-      @media only screen and (min-width: 758px) {
-        .wrapper {
-          padding: 50px;
-        }
-      } */
+
+      .ranking__btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        border-radius: 5px;
+        padding: 10px;
+        width: 50%;
+        margin: 10px;
+      }
     `;
   }
 
@@ -39,7 +54,9 @@ class Ranking extends LitElement {
 
     userListMap.forEach(value => parsedUserList.push(value));
 
-    this.userList = parsedUserList;
+    this.userList = parsedUserList
+      .sort((diggerA, diggerB) => diggerA.clicks - diggerB.clicks)
+      .reverse();
     this.isLoading = false;
   }
 
@@ -47,18 +64,29 @@ class Ranking extends LitElement {
     return html`
       ${!this.isLoading && !!this.userList
         ? html`
-            ${this.userList.map(
-              user => html`<h2>${user.username} : gold: ${user.clicks}</h2>`
-            )}
-            <button .onclick=${() => this.logout()}>logout</button>
+            <div class="ranking">
+              <h3>Ranking</h3>
+              <div>
+                ${this.userList.map(
+                  user => html` <div class="ranking__position">
+                    <span> ${user.username} </span>
+                    <span> ${user.clicks} gold </span>
+                  </div>`
+                )}
+              </div>
+              <div class="ranking__btns">
+                <button class="btn" .onclick=${() => this.logout()}>
+                  logout
+                </button>
+              </div>
+            </div>
           `
         : html``}
     `;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   logout() {
-    this.isLoading = false;
-
     Router.go({
       pathname: '/home',
     });

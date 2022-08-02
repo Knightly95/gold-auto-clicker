@@ -1,8 +1,46 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { setUserList } from '../services/main.js';
 import 'fa-icons';
+import { capitalize } from '../utils/helpers.js';
 
 export class StatusCard extends LitElement {
+  static get styles() {
+    return css`
+      .status-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        text-align: center;
+        justify-content: space-between;
+      }
+
+      .status-card__btns {
+        display: flex;
+        align-items: center;
+      }
+      .status-card__username {
+        font-size: 30px;
+        font-weight: bold;
+      }
+      .status-card__counters {
+        font-size: 20px;
+      }
+
+      .status-card__username,
+      .status-card__counters {
+        width: 80%;
+        margin: 0 auto;
+      }
+
+      .btn {
+        border-radius: 5px;
+        padding: 10px;
+        width: 50%;
+        margin: 10px;
+      }
+    `;
+  }
+
   static get properties() {
     return {
       currentUser: {
@@ -20,26 +58,31 @@ export class StatusCard extends LitElement {
       this.autoclickerCall();
     }, 1000);
   }
-  
+
   disconnectedCallback() {
     super.disconnectedCallback();
     window.clearInterval(this.interval);
   }
-  
+
   render() {
-    const {
-      username,
-      clicks,
-      autoclicker,
-    } = this.currentUser;
-    
+    const { username, clicks, autoclicker } = this.currentUser;
+
     return html`
-      <h2>${username}</h2>
-      <h3>${clicks}</h3>
-      <button .onclick=${() => this.getGold()}>Get Gold <fa-icon class="fa-solid fa-coin-vertical"></i>" size="12px"></fa-icon></button>
-      <button .disabled=${clicks < autoclicker.cost} .onclick=${() => this.hireGoldMiner()}>
-        Hire gold miner (${autoclicker.cost})
-      </button>
+      <div class="status-card">
+        <div class="status-card__username">${capitalize(username)}</div>
+        <div class="status-card__counters">${clicks} gold</div>
+        <div class="status-card__btns">
+          <button class="btn" .onclick=${() => this.getGold()}>Mine</button>
+          <button
+            class="btn"
+            .disabled=${clicks < autoclicker.cost}
+            .onclick=${() => this.hireGoldMiner()}
+          >
+            Hire gold miner (${autoclicker.cost})
+          </button>
+        </div>
+        <div class="status-card__counters">${autoclicker.amount} Miners</div>
+      </div>
     `;
   }
 
@@ -65,7 +108,7 @@ export class StatusCard extends LitElement {
     const autoclicker = {
       ...this.currentUser.autoclicker,
       amount: newAmount,
-      cost: baseCost * newAmount,
+      cost: baseCost + baseCost * newAmount,
     };
     this.currentUser = {
       ...this.currentUser,
@@ -80,10 +123,9 @@ export class StatusCard extends LitElement {
       clicks,
       autoclicker: { amount, power },
     } = this.currentUser;
-    if(amount < 1){
+    if (amount < 1) {
       return;
     }
-    console.log("called");
     const addAutoClicks = clicks + amount * power;
     this.currentUser = {
       ...this.currentUser,

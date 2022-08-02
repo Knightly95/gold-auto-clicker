@@ -1,16 +1,28 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 
 export class GoldFooter extends LitElement {
+  static get styles() {
+    return css`
+      .gold-footer {
+        padding: 10px 25px;
+        background-color: #cc812e;
+      }
+    `;
+  }
+
   static get properties() {
     return {
-      title: { type: String },
+      developerInfo: String,
     };
   }
 
+  constructor() {
+    super();
+    this.developerInfo = 'Luis Villarroel, Sr Front End Developer';
+  }
+
   render() {
-    return html`
-      <span>Luis Villarroel, Sr Front End Developer</span>
-    `;
+    return html` <div class="gold-footer">${this.developerInfo}</div> `;
   }
 }
 

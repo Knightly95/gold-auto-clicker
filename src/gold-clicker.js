@@ -15,6 +15,11 @@ export class GoldClicker extends LitElement {
         justify-content: center;
       }
 
+      main {
+        height: 100%;
+        width: 100%;
+      }
+
       .wrapper {
         display: flex;
         flex-direction: column;
@@ -23,15 +28,8 @@ export class GoldClicker extends LitElement {
         max-width: 400px;
         height: 400px;
         border: 1px solid black;
-        border-radius: 10px;
         background-color: #cfe17f;
         box-shadow: 0px 1px 20px #00000085;
-      }
-
-      @media only screen and (min-width: 758px) {
-        .wrapper {
-          padding: 50px;
-        }
       }
     `;
   }
