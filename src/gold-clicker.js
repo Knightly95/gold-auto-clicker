@@ -34,17 +34,6 @@ export class GoldClicker extends LitElement {
     `;
   }
 
-  static get properties() {
-    return {
-      title: { type: String },
-    };
-  }
-
-  constructor() {
-    super();
-    this.title = 'My app';
-  }
-
   firstUpdated() {
     const element = this.shadowRoot.querySelector('#main-content');
     attachRouterOutlet(element);
