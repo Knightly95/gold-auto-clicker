@@ -72,11 +72,13 @@ export class StatusCard extends LitElement {
         <div class="status-card__username">${capitalize(username)}</div>
         <div class="status-card__counters">${clicks} gold</div>
         <div class="status-card__btns">
-          <button class="btn" .onclick=${() => this.getGold()}>Mine</button>
+          <button class="btn get-gold-btn" @click=${() => this.getGold()}>
+            Mine
+          </button>
           <button
-            class="btn"
+            class="btn hire-btn"
             .disabled=${clicks < autoclicker.cost}
-            .onclick=${() => this.hireGoldMiner()}
+            @click=${() => this.hireGoldMiner()}
           >
             Hire gold miner (${autoclicker.cost})
           </button>

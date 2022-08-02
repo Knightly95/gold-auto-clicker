@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { Router } from '@vaadin/router';
 import { getUserList } from '../services/main.js';
+import { capitalize } from '../utils/helpers.js';
 
 class Ranking extends LitElement {
   static get styles() {
@@ -69,7 +70,7 @@ class Ranking extends LitElement {
               <div>
                 ${this.userList.map(
                   user => html` <div class="ranking__position">
-                    <span> ${user.username} </span>
+                    <span> ${capitalize(user.username)}</span>
                     <span> ${user.clicks} gold </span>
                   </div>`
                 )}
