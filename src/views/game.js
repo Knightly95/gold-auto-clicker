@@ -6,18 +6,29 @@ import { getCurrentUser, setUserList } from '../services/main.js';
 class Game extends LitElement {
   static get styles() {
     return css`
-      :host {
-        display: block;
+      .game {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-evenly;
       }
-      .wrapper {
-        padding: 25px;
+
+      .game__wrapper {
+        height: 80%;
       }
-      /* 
-      @media only screen and (min-width: 758px) {
-        .wrapper {
-          padding: 50px;
-        }
-      } */
+
+      .game__btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        border-radius: 5px;
+        padding: 10px;
+        width: 50%;
+        margin: 10px;
+      }
     `;
   }
 
@@ -52,19 +63,26 @@ class Game extends LitElement {
   render() {
     return html`
       ${!this.isLoading && !!this.currentUser
-        ?
-         html`
-            <status-card .currentUser=${this.currentUser}></status-card>
-            <button .onclick=${() => this.logout()}>logout</button>
+        ? html`
+            <div class="game">
+              <status-card
+                class="game__wrapper"
+                .currentUser=${this.currentUser}
+              ></status-card>
+              <div class="game__btns">
+                <button class="btn" .onclick=${() => this.logout()}>
+                  logout
+                </button>
+              </div>
+            </div>
           `
         : html``}
     `;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   logout() {
     setUserList(getCurrentUser());
-    this.isLoading = false;
-
     Router.go({
       pathname: '/home',
     });
